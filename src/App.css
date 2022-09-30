@@ -1,38 +1,106 @@
+@-moz-viewport {
+  width: device-width;
+  scale: 1;
+}
+@-ms-viewport {
+  width: device-width;
+  scale: 1;
+}
+@-o-viewport {
+  width: device-width;
+  scale: 1;
+}
+@-webkit-viewport {
+  width: device-width;
+  scale: 1;
+}
+@viewport {
+  width: device-width;
+  scale: 1;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+html {
+  box-sizing: border-box;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-smooth: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 16px;
+  color: #1d1d1d;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 4em;
 }
 
-.App-link {
-  color: #61dafb;
+header {
+  font-size: 39.06px;
+  font-weight: 600;
+  padding: 0 0 calc(1.33 * 39.06px) 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.table {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  max-width: 80vw;
+  padding: 31px;
+
+  background: #ffffff;
+  border: 2px solid rgba(29, 29, 29, 0.07);
+  box-shadow: 0px 16px 132px rgba(0, 0, 0, 0.07);
+  border-radius: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(29, 29, 29, 0.07);
+}
+
+.values p:first-of-type {
+  padding-top: 24px;
+}
+.values p:nth-of-type(2n) {
+  background-color: rgba(29, 29, 29, 0.04);
+}
+.values p:last-of-type {
+  margin-bottom: 0;
+}
+.values p {
+  padding: 6px 0;
+  margin: 6px 0;
 }
