@@ -6,97 +6,36 @@ function App () {
       <header>Transaction history</header>
 
       <div className='table'>
-        <div className='row'>
-          <h1 className='date title'>Date</h1>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
-        </div>
-        <div className='row'>
+        <div className='titles row'>
+          <h1 className='date title'>Date Time(UTC)</h1>
           <h2 className='description title'>Description</h2>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
-        </div>
-        <div className='row'>
           <h3 className='addressFrom title'>From</h3>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
-        </div>
-        <div className='row'>
           <h4 className='addressTo title'>To</h4>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
-        </div>
-        <div className='row'>
           <h5 className='value title'>Value</h5>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
-        </div>
-        <div className='row'>
           <h6 className='fee title'>Fee</h6>
-          <div className='values'>
-            <p>1000</p>
-            <p>2000</p>
-            <p>3000</p>
-            <p>4000</p>
-            <p>5000</p>
-            <p>6000</p>
-            <p>7000</p>
-            <p>8000</p>
-            <p>9000</p>
-            <p>1000</p>
-          </div>
         </div>
+        <DataRow />
+        <DataRow />
+        <DataRow />
+        <DataRow />
+        <DataRow />
+        <DataRow />
+        <DataRow />
+        <DataRow />
       </div>
+    </div>
+  )
+}
+
+function DataRow (date, description, addressFrom, addressTo, values, fee) {
+  return (
+    <div className='values row'>
+      <p className='date dataValue'>1,000,000.00</p>
+      <p className='description dataValue'>2,000,000.00</p>
+      <p className='addressFrom dataValue'>3,000,000.00</p>
+      <p className='addressTo dataValue'>4,000,000.00</p>
+      <p className='value dataValue'>5,000,000.00</p>
+      <p className='fee dataValue'>6,000,000.00</p>
     </div>
   )
 }
