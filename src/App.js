@@ -1,5 +1,30 @@
 import './App.css'
 
+const { ethers } = require('ethers')
+
+// API endpoints
+let uniswap_endpoint = `https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3`
+let etherscan_endpoint = `https://api.etherscan.io`
+let etherscan_apikey = `2PWEYJG9GT1YIMSGCBXYIGFSS7MCKW2PSB`
+
+const walletAddress = `0x3D0768da09CE77d25e2d998E6a7b6eD4b9116c2D`
+
+async function getWalletTransactions (address) {
+  let etherscanProvider = new ethers.providers.EtherscanProvider()
+
+  const transactions = await etherscanProvider
+    .getHistory(address)
+    .then(data => {
+      return data
+    })
+    .catch(error => {
+      return error
+    })
+  console.log(transactions)
+}
+
+// getWalletTransactions(walletAddress)
+
 function App () {
   return (
     <div className='App'>
