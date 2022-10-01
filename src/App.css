@@ -68,12 +68,10 @@ h6 {
 header {
   font-size: 39.06px;
   font-weight: 600;
-  padding: 0 0 calc(1.33 * 39.06px) 0;
+  padding: 39.06px 0 calc(1.33 * 39.06px) 0;
 }
 
 .table {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
   width: 100%;
   max-width: 80vw;
   padding: 31px;
@@ -84,23 +82,44 @@ header {
   border-radius: 16px;
 }
 
+.table .row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
 .title {
   font-size: 20px;
   font-weight: 500;
+}
+.titles {
   padding-bottom: 20px;
+  /* background-color: red; */
+  margin-bottom: 20px;
   border-bottom: 1px solid rgba(29, 29, 29, 0.07);
 }
 
-.values p:first-of-type {
-  padding-top: 24px;
+.values {
+  font-size: 16px;
 }
-.values p:nth-of-type(2n) {
-  background-color: rgba(29, 29, 29, 0.04);
+.values .addressFrom,
+.values .addressTo {
+  max-width: 11ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.values p:last-of-type {
+
+.values.row {
+  padding: 4px 0;
+  margin: 16px 0;
+}
+.values.row:first-of-type {
+  margin-top: 0px;
+}
+.values.row:last-of-type {
   margin-bottom: 0;
 }
-.values p {
-  padding: 6px 0;
-  margin: 6px 0;
+
+.values.row:nth-of-type(2n - 1) {
+  background-color: rgba(29, 29, 29, 0.04);
 }
