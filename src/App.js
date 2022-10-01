@@ -1,3 +1,5 @@
+import { formatEther, parseEther } from 'ethers/lib/utils'
+import { useState } from 'react'
 import './App.css'
 
 const { ethers } = require('ethers')
@@ -9,26 +11,51 @@ let etherscan_apikey = `2PWEYJG9GT1YIMSGCBXYIGFSS7MCKW2PSB`
 
 const walletAddress = `0x3D0768da09CE77d25e2d998E6a7b6eD4b9116c2D`
 
-async function getWalletTransactions (address) {
-  let etherscanProvider = new ethers.providers.EtherscanProvider()
-
-  const transactions = await etherscanProvider
-    .getHistory(address)
-    .then(data => {
-      return data
-    })
-    .catch(error => {
-      return error
-    })
-  console.log(transactions)
+function BigNumberToEthString (wei) {
+  return formatEther(wei).toString()
 }
 
-// getWalletTransactions(walletAddress)
+function toUTCDateTimeString (timestamp) {
+  let date = new Date(timestamp * 1000)
+  let utc_time = date
+    .toISOString()
+    .replace('T', ' ')
+    .substr(0, 16)
+  return utc_time
+}
 
 function App () {
+  const [fetchedTransactions, setFetchedTransactions] = useState(null)
+
+  async function getWalletTransactions (address) {
+    let etherscanProvider = new ethers.providers.EtherscanProvider()
+
+    const transactions = await etherscanProvider
+      .getHistory(address)
+      .then(data => {
+        return data
+      })
+      .catch(error => {
+        return error
+      })
+    console.log(transactions)
+    setFetchedTransactions(transactions)
+  }
+
   return (
     <div className='App'>
       <header>Transaction history</header>
+
+      <div className='actionBar'>
+        <button
+          onClick={e => {
+            e.preventDefault()
+            getWalletTransactions(walletAddress)
+          }}
+        >
+          Get transactions
+        </button>
+      </div>
 
       <div className='table'>
         <div className='titles row'>
@@ -39,28 +66,41 @@ function App () {
           <h5 className='value title'>Value</h5>
           <h6 className='fee title'>Fee</h6>
         </div>
-        <DataRow />
-        <DataRow />
-        <DataRow />
-        <DataRow />
-        <DataRow />
-        <DataRow />
-        <DataRow />
-        <DataRow />
+
+        {fetchedTransactions &&
+          fetchedTransactions.map((item, index) => {
+            return (
+              <DataRow
+                date={item.timestamp}
+                description={
+                  item.from === walletAddress ? 'Withdrawal' : 'Deposit'
+                }
+                addressFrom={item.from}
+                addressTo={item.to}
+                value={item.value['_hex']}
+                fee={item.gasPrice['_hex']}
+                key={`${index}`}
+              />
+            )
+          })}
       </div>
     </div>
   )
 }
 
-function DataRow (date, description, addressFrom, addressTo, values, fee) {
+function DataRow (props) {
   return (
     <div className='values row'>
-      <p className='date dataValue'>1,000,000.00</p>
-      <p className='description dataValue'>2,000,000.00</p>
-      <p className='addressFrom dataValue'>3,000,000.00</p>
-      <p className='addressTo dataValue'>4,000,000.00</p>
-      <p className='value dataValue'>5,000,000.00</p>
-      <p className='fee dataValue'>6,000,000.00</p>
+      <p className='date dataValue'>{toUTCDateTimeString(props.date)}</p>
+      <p className='description dataValue'>{props.description}</p>
+      <p className='addressFrom dataValue'>{props.addressFrom}</p>
+      <p className='addressTo dataValue'>{props.addressTo}</p>
+      <p className='value dataValue'>{`${BigNumberToEthString(
+        props.value
+      )} Ξ`}</p>
+      <p className='fee dataValue'>{`${BigNumberToEthString(
+        props.fee.toString()
+      )} Ξ`}</p>
     </div>
   )
 }
