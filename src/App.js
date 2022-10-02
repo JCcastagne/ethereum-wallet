@@ -38,6 +38,17 @@ function App () {
       .catch(error => {
         return error
       })
+
+    transactions.sort((a, b) => {
+      if (a.timestamp > b.timestamp) {
+        return -1
+      }
+      if (b.timestamp > a.timestamp) {
+        return 1
+      }
+      return 0
+    })
+
     console.log(transactions)
     setFetchedTransactions(transactions)
   }
