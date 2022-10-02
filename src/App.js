@@ -12,7 +12,10 @@ let etherscan_apikey = `2PWEYJG9GT1YIMSGCBXYIGFSS7MCKW2PSB`
 const walletAddress = `0x3D0768da09CE77d25e2d998E6a7b6eD4b9116c2D`
 
 function BigNumberToEthString (wei) {
-  return formatEther(wei).toString()
+  return formatEther(wei)
+    .toString()
+    .padEnd(10, 0)
+    .substring(0, 10)
 }
 
 function toUTCDateTimeString (timestamp) {
