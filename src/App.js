@@ -1,6 +1,9 @@
+import './App.css'
+import wallet_white from './img/wallet_white.png'
+import search_normal_black from './img/search-normal_black.png'
+
 import { formatEther, parseEther } from 'ethers/lib/utils'
 import { useState } from 'react'
-import './App.css'
 
 const { ethers } = require('ethers')
 
@@ -8,8 +11,6 @@ const { ethers } = require('ethers')
 let uniswap_endpoint = `https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3`
 let etherscan_endpoint = `https://api.etherscan.io`
 let etherscan_apikey = `2PWEYJG9GT1YIMSGCBXYIGFSS7MCKW2PSB`
-
-const walletAddress = `0x3D0768da09CE77d25e2d998E6a7b6eD4b9116c2D`
 
 function BigNumberToEthString (wei) {
   return formatEther(wei)
@@ -28,7 +29,31 @@ function toUTCDateTimeString (timestamp) {
 }
 
 function App () {
+  const [walletAddress, setWalletAddress] = useState(
+    '0x3D0768da09CE77d25e2d998E6a7b6eD4b9116c2D'
+  )
+  function handleInputWalletAddress (e) {
+    e.preventDefault()
+    setWalletAddress(e.target.value)
+  }
   const [fetchedTransactions, setFetchedTransactions] = useState(null)
+
+  async function requestWalletAccount () {
+    console.log('click')
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        })
+        setWalletAddress(accounts[0])
+        getWalletTransactions(accounts[0])
+      } catch (error) {
+        alert('Error connecting to wallet.')
+      }
+    } else {
+      alert('Wallet not detected.')
+    }
+  }
 
   async function getWalletTransactions (address) {
     let etherscanProvider = new ethers.providers.EtherscanProvider()
@@ -58,18 +83,31 @@ function App () {
 
   return (
     <div className='App'>
-      <header>Transaction history</header>
-
       <div className='actionBar'>
-        <button
-          onClick={e => {
-            e.preventDefault()
-            getWalletTransactions(walletAddress)
-          }}
-        >
-          Get transactions
-        </button>
+        <div className='userInput'>
+          <input
+            type='text'
+            placeholder='Ethereum wallet address'
+            onChange={handleInputWalletAddress}
+            onSubmit={() => getWalletTransactions(walletAddress)}
+          ></input>
+          <div
+            onClick={e => {
+              e.preventDefault()
+              getWalletTransactions(walletAddress)
+            }}
+          >
+            <img src={search_normal_black} alt='search icon' />
+          </div>
+        </div>
+
+        <div className='connectWallet' onClick={requestWalletAccount}>
+          <img src={wallet_white} alt='wallet icon' />
+          <p>Connect wallet</p>
+        </div>
       </div>
+
+      <header>Transaction history</header>
 
       <div className='table'>
         <div className='titles row'>
