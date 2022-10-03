@@ -3,14 +3,13 @@ import wallet_white from './img/wallet_white.png'
 import search_normal_black from './img/search-normal_black.png'
 
 import { formatEther, parseEther } from 'ethers/lib/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const { ethers } = require('ethers')
 
 // API endpoints
-let uniswap_endpoint = `https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3`
-let etherscan_endpoint = `https://api.etherscan.io`
-let etherscan_apikey = `2PWEYJG9GT1YIMSGCBXYIGFSS7MCKW2PSB`
+const polygon_endpoint = `https://api.polygonscan.com`
+const polygon_apikey = `1FNSE7DMTQYEAPC56HR7ZQM5ZVSPYSCQ9V`
 
 function BigNumberToEthString (wei) {
   return formatEther(wei)
@@ -56,30 +55,54 @@ function App () {
   }
 
   async function getWalletTransactions (address) {
-    let etherscanProvider = new ethers.providers.EtherscanProvider()
+    const infuria_ID = 'd3779648f1084bb0a450b3e74f00b4cd'
+    const polygon_endpoint = `https://polygon-mainnet.infura.io/v3/${infuria_ID}`
+    const polygon_API_KEY = `1FNSE7DMTQYEAPC56HR7ZQM5ZVSPYSCQ9V`
+    const USDC_contract_address = `0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174`
 
-    const transactions = await etherscanProvider
-      .getHistory(address)
-      .then(data => {
-        return data
-      })
-      .catch(error => {
-        return error
-      })
+    const provider = new ethers.providers.JsonRpcProvider(polygon_endpoint)
 
-    transactions.sort((a, b) => {
-      if (a.timestamp > b.timestamp) {
-        return -1
-      }
-      if (b.timestamp > a.timestamp) {
-        return 1
-      }
-      return 0
-    })
+    async function getContractABI () {
+      // make an API call to the ABIs endpoint
+      const response = await fetch(
+        `https://api.polygonscan.com/api?module=contract&action=getabi&address=${USDC_contract_address}&apikey=${polygon_API_KEY}`
+      )
+      const data = await response.json()
 
-    console.log(transactions)
-    setFetchedTransactions(transactions)
+      // print the JSON response
+      let abi = data.result
+      console.log(abi)
+    }
+    getContractABI()
+
+    //initializing Polygon provider
+    // const etherscanProvider = new ethers.providers.EtherscanProvider()
+
+    // const transactions = await etherscanProvider
+    //   .getHistory(address)
+    //   .then(data => {
+    //     return data
+    //   })
+    //   .catch(error => {
+    //     return error
+    //   })
+
+    // transactions.sort((a, b) => {
+    //   if (a.timestamp > b.timestamp) {
+    //     return -1
+    //   }
+    //   if (b.timestamp > a.timestamp) {
+    //     return 1
+    //   }
+    //   return 0
+    // })
+
+    // console.log(transactions)
+    // setFetchedTransactions(transactions)
   }
+  useEffect(() => {
+    getWalletTransactions()
+  }, [])
 
   return (
     <div className='App'>
